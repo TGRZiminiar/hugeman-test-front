@@ -3,13 +3,7 @@
 import Image from "next/image"
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/DropDownComp/DropDown-Menu";
+
 
 import { useEffect, useState } from "react";
 import React from "react";
