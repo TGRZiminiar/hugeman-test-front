@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Cpage from './_component/Cpage'
 
 export default function Home() {

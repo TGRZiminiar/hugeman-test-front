@@ -1,10 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MainStateType, Todo } from "../TodoType"
 import TodoData from "./TodoData"
 import AddTodoBtn from "./AddTodoBtn"
 import DialogUpdate from "./DialogUpdate"
+import { Circular } from "@/components/Loading/Circular"
+import { makeRequest } from "@/lib/makeRequest"
 
 const mockData:Todo[] = [
     {
@@ -12,7 +14,7 @@ const mockData:Todo[] = [
         title: "test",
         description: "test",
         created_at: new Date(),
-        updated_at: "test",
+        updated_at: new Date(),
         image: "",
         status: "COMPLETED",
     },
@@ -21,7 +23,7 @@ const mockData:Todo[] = [
         title: "test",
         description: "test",
         created_at: new Date(),
-        updated_at: "test",
+        updated_at: new Date(),
         image: "",
         status: "IN_PROGRESS",
     },
@@ -39,15 +41,28 @@ export default function Cpage() {
             title: "",
             description: "",
             created_at: new Date(),
-            updated_at: "",
+            updated_at: new Date(),
             image: "",
             status: "",
         },
         todos: [],
     })
 
-
     
+    async function loadTodo() {
+        const {data, error} = await makeRequest<Todo[]>("/list-todo", {
+            method:"GET"
+        })
+        if (data) {
+            setState(prev => ({...prev, todos: data}))
+        }
+    }
+
+    useEffect(() => {
+        loadTodo()
+    }, [])
+
+
 
     return (
         <>
@@ -61,7 +76,7 @@ export default function Cpage() {
             />
 
             <div className="flex flex-col gap-4 mt-8">
-            {mockData.map((item, i) => (
+            {state.todos.length !== 0 && state.todos.map((item, i) => (
                <TodoData
                key={i}
                item={item}
@@ -79,6 +94,9 @@ export default function Cpage() {
 
         </div>
 
+            <Circular
+            loading={state.loading}
+            />
        
        
         </>

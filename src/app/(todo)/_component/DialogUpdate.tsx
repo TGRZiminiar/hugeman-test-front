@@ -1,6 +1,6 @@
 "use client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog/Dialog"
-import { MainStateType, SubStateType } from "../TodoType";
+import { MainStateType, SubStateType, Todo } from "../TodoType";
 import { Button } from "@/components/ui/Button/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import InputRef from "@/components/Input/InputRef";
@@ -8,6 +8,8 @@ import TextAreaRef from "@/components/Input/TextArea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select/Select"
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { makeRequest } from "@/lib/makeRequest";
+import { toast } from "react-toastify";
 
 
 export default function DialogUpdate({
@@ -30,6 +32,52 @@ export default function DialogUpdate({
     
     async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
+        setState(prev => ({ ...prev, loading: true }))
+
+        const form = new FormData();
+        if (!titleRef.current?.value) {
+            toast.error("title is required")
+            setState(prev => ({...prev, loading: false}))
+        }
+        else if (!descriptionRef.current?.value) {
+            toast.error("description is required")
+            setState(prev => ({...prev, loading: false}))
+        }
+        else if (!subState.status) {
+            toast.error("status is required")
+            setState(prev => ({...prev, loading: false}))
+        }
+        else {
+            form.append("description", descriptionRef.current?.value as string)
+            form.append("title", titleRef.current?.value as string)
+            form.append("image", subState.images[0])
+            form.append("status", subState.status)
+
+            const {data, error} = await makeRequest<Todo>("/todo", {
+                method:"PATCH",
+                data:form
+            })
+            if (error || !data) {
+                toast.error(error || "Error Please Try Again Later")
+                setState(prev => ({ ...prev, loading: false }))
+            }
+
+            else {
+                toast.success("Create Todo Success")
+                setState(prev => ({ ...prev, loading: false, todo:{
+                    _id: data._id,
+                    title: data.title,
+                    description: data.description,
+                    created_at: data.created_at,
+                    updated_at: data.updated_at,
+                    image: data.image,
+                    status: data.status,
+                } }))
+                
+            }
+        }
+
+
 
     }
 
@@ -66,7 +114,7 @@ export default function DialogUpdate({
           descriptionRef.current.value = todo.description;
         }
         
-      }, []); 
+    }, []); 
 
 return (
 
@@ -81,7 +129,7 @@ return (
                         title: "",
                         description: "",
                         created_at: new Date(),
-                        updated_at: "",
+                        updated_at: new Date(),
                         image: "",
                         status: "",
                     },}))
