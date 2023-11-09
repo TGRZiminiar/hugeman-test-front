@@ -12,7 +12,9 @@ export interface MainStateType {
     dialogNewTask: boolean;
     loading: boolean;
     todo: Todo;
-    todos: Todo[];
+    todos: Todo[];  
+    sort: string;
+    search: string;
 }
 export interface SubStateType {
     images:any[];

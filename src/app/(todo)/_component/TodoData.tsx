@@ -1,7 +1,6 @@
 "use client"
 
 import { Icon } from "@iconify/react/dist/iconify.js"
-import Image from "next/image"
 import { MainStateType, Todo } from "../TodoType"
 import moment from "moment"
 import {
@@ -20,7 +19,6 @@ export default function TodoData({
     item: Todo
     setState: React.Dispatch<React.SetStateAction<MainStateType>>
 }) {
-
 
     async function handleDeleteTodo(todoId: string, title: string) {
         if (window.confirm("Want to delete this todo: " + title)) {
@@ -41,25 +39,49 @@ export default function TodoData({
 
 
     return (
-        <div
-            className="flex flex-col md:flex-row justify-between p-4 items-center border-b  hover:shadow-md rounded-md  border">
-            <div className="flex flex-col md:justify-center justify-start md:flex-row items-center gap-4">
-                <div className="">
-                    {item.image.length > 25 &&
-                        <img
-                            alt="hello"
-                            src={item.image}
-                            className="w-24 h-36 object-fill rounded-sm"
-                        />
-                    }
-                </div>
-                <h6 className="text-base font-medium">{item.title}</h6>
+        <div className="flex flex-col gap-2 border rounded-lg p-4">
+
+            <h6 className="text-2xl font-medium">
+                {item.title}
+            </h6>
+
+            <div className="mx-auto">
+                {item.image.length > 25 &&
+                    <img
+                        alt="hello"
+                        src={item.image}
+                        className="w-48 h-60 object-fill rounded-sm"
+                    />
+                }
             </div>
 
-            <div className="flex flex-wrap  justify-center gap-1 items-center">
-                <h6 className={`px-2 py-1 rounded-md text-white mx-2 ${item.status === "IN_PROGRESS" ? "bg-amber-500" : "bg-lightG"}`}>{item.status}</h6>
+            <h6 className="text-base font-medium text-slate-700">
+                {item.description}
+                
+            </h6>
 
-                <h6 className="text-slate-400 text-sm">{moment(item.created_at).format("ll")}</h6>
+            <div className="flex justify-between gap-2">
+
+                <div className="flex flex-col gap-0.5 text-xs">
+
+                    <div className="flex gap-2">
+                        <h6 className=" text-slate-600">
+                            CreatedAt:
+                        </h6>
+                        <h6 className="text-slate-400 ">
+                            {moment(item.created_at).format("ll")}
+                        </h6>
+                    </div>
+
+                    <div className="flex gap-2">
+                        <h6 className=" text-slate-600">
+                            UpdatedAt:
+                        </h6>
+                        <h6 className="text-slate-400 ">
+                            {moment(item.updated_at).format("ll")}
+                        </h6>
+                    </div>
+                </div>
 
                 <DropdownMenu>
                     <DropdownMenuTrigger>
@@ -82,8 +104,10 @@ export default function TodoData({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-        </div>
 
+
+
+        </div>
     )
 
 }
