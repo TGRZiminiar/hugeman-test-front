@@ -60,7 +60,11 @@ export default function TodoData({
                 
             </h6>
 
+                <div className={`w-full px-1 py-2 text-center rounded-sm ${item.status === "COMPLETED" ? "bg-green-500 hover:bg-green-400" : "bg-amber-500 hover:bg-amber-400"} text-white cursor-pointer`}>
+                   <h6 className="text-sm">{item.status}</h6>
+                </div>
             <div className="flex justify-between gap-2">
+                
 
                 <div className="flex flex-col gap-0.5 text-xs">
 

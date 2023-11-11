@@ -28,7 +28,8 @@ export default function DialogUpdate({
     })
     const titleRef = useRef<HTMLInputElement | null>(null);
     const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
-
+    console.log(subState);
+    
     async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
         setState(prev => ({ ...prev, loading: true }))
@@ -50,12 +51,23 @@ export default function DialogUpdate({
             form.append("_id", todo._id)
             form.append("description", descriptionRef.current?.value as string)
             form.append("title", titleRef.current?.value as string)
-            form.append("image", subState.images[0])
+            if(subState.images.length !== 0){
+                form.append("image", subState.images[0])
+            }
+            else {
+                
+                form.append("image", todo.image)
+                console.log("correct function have called");
+                
+            }
             form.append("status", subState.status)
 
             const { data, error } = await makeRequest<Todo>("/todo", {
                 method: "PATCH",
-                data: form
+                data: form,
+                headers:{
+                    "Content-Type":"multipart/form-data"
+                }
             })
             if (error || !data) {
                 toast.error(error || "Error Please Try Again Later")

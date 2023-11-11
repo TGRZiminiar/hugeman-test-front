@@ -10,28 +10,6 @@ import { Circular } from "@/components/Loading/Circular"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select/Select"
 import Input from "@/components/Input/Input"
 
-const mockData: Todo[] = [
-    {
-        _id: "asdasd",
-        title: "test",
-        description: "test",
-        created_at: new Date(),
-        updated_at: new Date(),
-        image: "",
-        status: "COMPLETED",
-    },
-    {
-        _id: "asdasd",
-        title: "test",
-        description: "test",
-        created_at: new Date(),
-        updated_at: new Date(),
-        image: "",
-        status: "IN_PROGRESS",
-    },
-]
-
-
 export default function Cpage() {
 
 
@@ -80,7 +58,7 @@ export default function Cpage() {
                     setState={setState}
                 />
 
-                <div className="flex justify-between gap-4 items-center w-full">
+               {/*  <div className="flex justify-between gap-4 items-center w-full">
 
                     
                     <div className="w-2/3">
@@ -110,7 +88,7 @@ export default function Cpage() {
                         </Select>
 
                     </div>
-                </div>
+                </div> */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16 mt-8">
                     {state.todos.length !== 0 && state.todos.map((item, i) => (

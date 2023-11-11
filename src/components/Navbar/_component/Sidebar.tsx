@@ -43,8 +43,7 @@ export default function Sidebar({
                         <SheetDescription className="flex flex-col gap-8 px-6 text-slate-600">
                             <Link href="/" className=" px-2 h-full flex items-center cursor-pointer text-lg font-medium">Home</Link>
 
-                            <Link href="/blog" className=" px-2 h-full flex items-center cursor-pointer hover:text-navH/75 text-lg font-medium">Blog</Link>
-                            <Link href="/contact"  className=" px-2 h-full flex items-center cursor-pointer hover:text-navH/75 text-lg font-medium">Contact</Link>
+                            <Link href="/" className=" px-2 h-full flex items-center cursor-pointer hover:text-navH/75 text-lg font-medium">Chitsanupong Jateassavapirom</Link>
 
                         </SheetDescription>
                     </SheetHeader>
